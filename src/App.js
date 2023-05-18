@@ -1,7 +1,11 @@
 import "./App.css";
+import React from "react";
+import PokemonWrapper from "./components/PokemonWrapper";
 
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return <div className="w-full p-3 max-w-[500px] mx-auto">
+    <PokemonWrapper/>
+  </div>;
 }
 
 export default App;
