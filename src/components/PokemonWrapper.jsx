@@ -1,12 +1,12 @@
 import React, { lazy, Suspense } from "react";
 import { useGetAllDataQuery } from "../services/FetchData";
 import { Spin } from "antd";
-// import PokemonCard from "./components/PokemonCard";
+// import PokemonCard from "./PokemonCard";
 const PokemonCard = lazy(() => import("./PokemonCard"));
 
 const PokemonWrapper = () => {
   const { data, error, isLoading } = useGetAllDataQuery();
-  console.log(data?.results);
+  // console.log(data?.results);
   if (isLoading) {
     return <p>Loading...</p>;
   }
