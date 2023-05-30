@@ -16,6 +16,8 @@ const Moves = ({ details }) => {
             </div>
           );
         }
+        // default return for those that doesn't meet the if condition
+        return null;
       })}
     </div>
   );
