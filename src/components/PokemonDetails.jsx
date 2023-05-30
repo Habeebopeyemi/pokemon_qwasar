@@ -1,12 +1,12 @@
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Spin, Tabs } from "antd";
-import { useGetPokemonQuery, useGetSpeciesQuery } from "../services/FetchData";
+import { useGetPokemonQuery } from "../services/FetchData";
 import { BsArrowLeft } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import About from "./About";
 import Stats from "./Stats";
-import Evolution from "./Evolution";
+// import Evolution from "./Evolution";
 import Moves from "./Moves";
 // const Image = lazy(() => import("./Image"));
 
@@ -15,7 +15,7 @@ const PokemonDetails = () => {
   const navigate = useNavigate();
 
   const { data, error, isLoading } = useGetPokemonQuery(`${id}`);
-  const label = ["About", "Base Stats", "Evolution", "Moves"];
+  const label = ["About", "Base Stats", "Moves", "Evolution"];
 
   const styles = [
     "w-full max-w-[500px] mx-auto rounded-xl border-[2px] bg-red-700 text-white",
@@ -67,7 +67,7 @@ const PokemonDetails = () => {
           </div>
           <div className="w-[200px] h-[200px] mx-auto">
             <Suspense fallback={<Spin size="small" />}>
-              <img src={data.sprites.front_default} className="w-full" />
+              <img src={data.sprites.front_default} alt="alt" className="w-full" />
             </Suspense>
           </div>
         </div>
@@ -76,20 +76,20 @@ const PokemonDetails = () => {
         <Tabs
           centered
           defaultActiveKey={"1"}
-          items={new Array(4).fill(null).map((_, i) => {
+          items={new Array(3).fill(null).map((_, i) => {
             const tabId = String(i + 1);
             let child = undefined;
             if (label[i] === "About") {
               child = <About details={data} id={id} />;
             }
             if (label[i] === "Base Stats") {
-              child = <Stats />;
+              child = <Stats details={data} />;
             }
-            if (label[i] === "Evolution") {
-              child = <Evolution />;
-            }
+            // if (label[i] === "Evolution") {
+            //   child = <Evolution />;
+            // }
             if (label[i] === "Moves") {
-              child = <Moves />;
+              child = <Moves details={data} />;
             }
             return {
               label: label[i],

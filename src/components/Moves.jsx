@@ -1,9 +1,24 @@
-import React from 'react'
+import React from "react";
 
-const Moves = () => {
+const Moves = ({ details }) => {
+  const { moves } = details;
+  // console.log(moves);
   return (
-    <div>Moves</div>
-  )
-}
+    <div className="w-[50%]">
+      {moves.map((el, index) => {
+        if (index >= 0 && index <= 10) {
+          return (
+            <div className="flex justify-between" key={index}>
+              <p>{el.move.name}</p>
+              <p className="font-bold">
+                {el.version_group_details[0].move_learn_method.name}
+              </p>
+            </div>
+          );
+        }
+      })}
+    </div>
+  );
+};
 
-export default Moves
+export default Moves;

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { useGetAllDataQuery } from "../services/FetchData";
 import { Spin } from "antd";
 // import PokemonCard from "./PokemonCard";
@@ -6,7 +6,19 @@ const PokemonCard = lazy(() => import("./PokemonCard"));
 
 const PokemonWrapper = () => {
   const { data, error, isLoading } = useGetAllDataQuery();
+  const [pokemon, setPokemon] = useState(data);
   // console.log(data?.results);
+
+  const searchHandler = e => {
+    let searchValues =
+      data &&
+      data.results &&
+      data.results.filter(result => {
+        return result.name.includes(e.target.value);
+      });
+    setPokemon(searchValues);
+    // console.log(pokemon);
+  };
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -24,11 +36,28 @@ const PokemonWrapper = () => {
             <Spin size="large" />
           </div>
         }>
-        {data &&
+        <div className="w-full">
+          <input
+            type="text"
+            placeholder="enter a pokemon name"
+            className="p-2 border-[1px] w-full rounded-xl focus:outline-0 focus:border-blue-500"
+            onChange={searchHandler}
+          />
+        </div>
+        {/* {data &&
           data.results &&
           data.results.map((el, index) => {
             return <PokemonCard url={el.url} key={index} />;
-          })}
+          })} */}
+        {pokemon?.length > 0
+          ? pokemon.map((el, index) => {
+              return <PokemonCard url={el.url} key={index} />;
+            })
+          : data &&
+            data.results &&
+            data.results.map((el, index) => {
+              return <PokemonCard url={el.url} key={index} />;
+            })}
       </Suspense>
     </div>
   );
